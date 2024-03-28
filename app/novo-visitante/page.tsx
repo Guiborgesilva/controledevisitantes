@@ -1,113 +1,47 @@
 'use client'
 
-import Link from "next/link"
+import { z } from "zod"
+import { useForm } from 'react-hook-form'
+import { RegisterVisitante } from "@/app/lib/utils"
 import { ToastContainer, toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
-import { useForm } from "react-hook-form"
-import { FormData } from "../lib/definitions"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { normalizePhoneNumber, visitanteSchema } from "../lib/utils"
-import { useEffect, useState } from "react"
-import { redirect } from "react-router-dom"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+
+export type VisitanteForm = z.infer<typeof RegisterVisitante>
 
 export default function Page() {
+  const router = useRouter()
   const {
     register,
-    watch,
-    setValue,
+    handleSubmit,
     formState: {errors}
-  } = useForm<FormData>({
-    mode: 'all',
-    reValidateMode: 'onSubmit',
-    resolver: zodResolver(visitanteSchema)
+  } = useForm<VisitanteForm>({
+    resolver: zodResolver(RegisterVisitante)
   })
 
-  const telefone = watch('telefone')
-
-  useEffect(() => {
-    setValue('telefone', normalizePhoneNumber(telefone))
-  }, [telefone])
-
-  async function registerVisitante(data: FormData) {
-    
+  async function onSubmit(data: VisitanteForm) {
     try{
-      const response = await fetch('/api/visitante', {
+      const response = await fetch('/api/visitante/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(data)
       })
-      
-      if(!response.ok) {
-        throw new Error('Erro ao cadastrar visitante!')
+
+      if(response.ok) {
+        const responseData = await response.json()
+        console.log('Dados enviados com sucesso!', responseData)
+        toast.success('Visitante cadastrado com sucesso!')
+        setTimeout(() => router.push('/'), 3000)
+      } else {
+        toast.error('Falha ao cadastrar Visitante!')
+        console.error('Falha ao enviar os dados!')
       }
-      toast.success('Visitante cadastrado com sucesso!')
-      // return redirect('/')
-    } catch (error) {
-      console.error(error)
-      toast.error('Erro ao cadastrar visitante!')
-    }
-  }
-  
-  const [formData, setFormData] = useState({
-    nome: '',
-    data_nascimento: '',
-    sexo: '',
-    telefone: '',
-    endereco: '',
-    bairro: '',
-    quem_convidou: '',
-    como_conheceu_sara: '',
-    data_visita: '',
-    tipo_culto: '',
-  })
-
-  const [formattedPhoneNumber, setFormattedPhoneNumber] = useState('')
-  
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, id, value, type } = e.target
-    let updatedValue = value
-
-    if(id === 'nome' && type === 'text'){
-      updatedValue = value.replace(/\b\w/g, (char) => char.toUpperCase())
-    }
-
-    if(id === 'endereco' && type === 'text'){
-      updatedValue = value.charAt(0).toUpperCase() + value.slice(1)
-    }
-
-    if(id === 'bairro' && type === 'text'){
-      updatedValue = value.charAt(0).toUpperCase() + value.slice(1)
-    }
-
-    if(id === 'quem_convidou' && type === 'text'){
-      updatedValue = value.charAt(0).toUpperCase() + value.slice(1)
-    }
-
-    if(id === 'como_conheceu' && type === 'text'){
-      updatedValue = value.charAt(0).toUpperCase() + value.slice(1)
-    }
-
-
-    if(type === 'tel') {
-      const formattedPhone = normalizePhoneNumber(value)
-      setFormattedPhoneNumber(formattedPhone)
-    }
-
-    setFormData({
-      ...formData,
-      [name]: value,
-      [id]: updatedValue
-    })
-  }
-
-  async function handleSubmit(data: FormData) {
-    try{
-      registerVisitante(data)
-    } catch (error) {
-      console.error(error)
+    } catch(error) {
+      toast.warning('Erro ao cadastrar Visitante!')
+      console.error(`Erro ao enviar os dados!: ${error}`)
     }
   }
   
@@ -163,10 +97,7 @@ export default function Page() {
           <div></div>
         </div>
         <form
-          onSubmit={e => {
-            e.preventDefault()
-            handleSubmit(formData)
-          }}
+          onSubmit={handleSubmit(onSubmit)}
           className="
             flex
             flex-col
@@ -176,40 +107,30 @@ export default function Page() {
         >
           <label htmlFor="nome">Nome completo</label>
           <input
-            id="nome"
             className="
               text-black
               p-2
               rounded-lg
               w-full
-              input-capitalized
             "
             autoFocus
-            required
             {...register('nome')}
-            onChange={handleChange}
             placeholder="Digite o nome completo do visitante"
             type="text"
-            style={{ textTransform: 'capitalize' }}
           />
           {<span>{errors.nome?.message}</span>}
           <label htmlFor="data_nascimento">Data de nascimento</label>
           <input
             type="date"
-            required
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded-lg cursor-pointer"
             maxLength={20}
             {...register('data_nascimento')}
-            onChange={handleChange}
           />
           {<span>{errors.data_nascimento?.message}</span>}
           <label htmlFor="sexo">Sexo</label>
           <select
-            id="sexo"
-            required
             defaultValue="Selecione uma opção"
             {...register('sexo')}
-            onChange={handleChange}
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 p-2 outline-2 text-black"
           >
             <option defaultValue="Selecione uma opção" disabled>Selecione uma opção</option>
@@ -220,75 +141,56 @@ export default function Page() {
           <label htmlFor="telefone">Telefone</label>
           <input
             type="tel"
-            required
             {...register('telefone')}
-            value={formattedPhoneNumber}
-            onChange={handleChange}
-            maxLength={17}
+            maxLength={11}
             className="text-black p-2 rounded-lg"
-            placeholder="(00) 0 0000-0000"
+            placeholder="48999999999"
           />
           {<span>{errors.telefone?.message}</span>}
           <label htmlFor="endereco">Enrereço</label>
           <input
-            id="endereco"
             className="text-black p-2 rounded-lg"
-            required
             {...register('endereco')}
-            onChange={handleChange}
             placeholder="Rua da Glória, 1234"
             type="text"
           />
           {<span>{errors.endereco?.message}</span>}
           <label htmlFor="bairro">Bairro</label>
           <input
-            id="bairro"
             className="text-black p-2 rounded-lg"
-            required
             {...register('bairro')}
-            onChange={handleChange}
             placeholder="Digite o bairro do visitante"
             type="text"
           />
           {<span>{errors.bairro?.message}</span>}
           <label htmlFor="quem_convidou">Quem convidou o visitante</label>
           <input
-            id="quem_convidou"
             className="text-black p-2 rounded-lg"
-            required
             {...register('quem_convidou')}
-            onChange={handleChange}
             placeholder="Quem convidou o visitante"
             type="text"
           />
           {<span>{errors.quem_convidou?.message}</span>}
-          <label htmlFor="como_conheceu_sara">Como conheceu a Sara Nossa Terra</label>
+          <label htmlFor="como_conheceu">Como conheceu a Sara Nossa Terra</label>
           <textarea
-            id="como_conheceu"
             className="text-black px-2 pt-2 pb-10 rounded-lg"
-            required
-            {...register('como_conheceu_sara')}
-            onChange={handleChange}
+            {...register('como_conheceu')}
             placeholder="Escreva como o visitante conheceu a Sara Nossa Terra"
+            maxLength={255}
           ></textarea>
-          {<span>{errors.como_conheceu_sara?.message}</span>}
+          {<span>{errors.como_conheceu?.message}</span>}
           <label htmlFor="data_visita">Data da visita</label>
           <input
             type="date"
-            required
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded-lg cursor-pointer"
             maxLength={20}
             {...register('data_visita')}
-            onChange={handleChange}
           />
           {<span>{errors.data_visita?.message}</span>}
           <label htmlFor="tipo_culto">Tipo de Culto</label>
           <select
-            id="tipo_culto"
-            required
             defaultValue="Selecione uma opção"
             {...register('tipo_culto')}
-            onChange={handleChange}
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 p-2 outline-2 text-black"
           >
             <option defaultValue="Selecione uma opção" disabled>Selecione uma opção</option>
@@ -307,17 +209,18 @@ export default function Page() {
           </select>
           {<span>{errors.tipo_culto?.message}</span>}
           <button
+            type="submit"
             className="
               p-2
               mt-3
               rounded-[10px]
+              font-bold
               hover:bg-white
               hover:text-black
               transition
               border
               border-white
             "
-            type="submit"
           >
             CADASTRAR
           </button>

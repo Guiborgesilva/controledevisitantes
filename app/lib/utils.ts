@@ -1,9 +1,22 @@
 import { z } from "zod"
 
-export function normalizePhoneNumber(telefone: string | undefined) {
-  if(!telefone) return ''
+export function capitalizarFrase(frase: string) {
+  /* FUNÇÃO QUE DEIXA A PRIMEIRA PALAVRA DE CADA FRASE EM MAIÚSCULA' */
+  return frase.replace(/^./, frase[0].toUpperCase());
+}
 
-  return telefone.replace(/[\D]/g, '')
+export function capitalizarNome(nome: string | undefined) {
+  /* FUNÇÃO REGEX PARA CAPITALIZAR A PRIMEIRA LETRA DE CADA PALAVRA */
+  if(!nome) return ''
+  
+  return nome.toLowerCase().replace(/(?:^|\s)\S/g, l => l.toUpperCase())
+}
+
+export function normalizePhoneNumber(phoneNumber: string | undefined) {
+  /* FUNÇÃO REGEX PARA PADRONIZAR O TELEFONE DIGITADO */
+  if(!phoneNumber) return ''
+
+  return phoneNumber.replace(/[\D]/g, '')
   .replace(/(\d{2})(\d)/, '($1) $2 ')
   .replace(/(\d{4})(\d)/, '$1-$2')
   .replace(/(-\d{4})(\d+?)/, '$1')
@@ -70,13 +83,9 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 
 export const visitanteSchema = z.object({
   id: z.string(),
-  nome_pessoa: z.string()
-  .min(1, 'Por favor, digite seu nome!')
-  .transform(nome => {
-    return nome.trim().split(' ').map(word => {
-      return word[0].toLocaleUpperCase().concat(word.substring(1))
-    }).join(' ')
-  }),
+  nome: z.string()
+  .min(1, 'Por favor, digite o nome do visitante!')
+  .transform(capitalizarNome),
   data_nascimento: z.coerce.date({
     errorMap: (issue, { defaultError }) => ({
       message: issue.code ===
@@ -89,11 +98,19 @@ export const visitanteSchema = z.object({
   sexo: z.enum(['Feminino', 'Masculino'], {
     errorMap: () => ({ message: 'Por favor, selecione uma opção!' })
   }),
-  telefone: z.string().min(1, 'Por favor, digite o telefone do visitante!').max(17),  
-  endereco: z.string().min(1, 'Por favor, digite o endereço do visitante!'),
-  bairro: z.string().min(1, 'Por favor, digite o bairro do visitante!'),
-  quem_convidou: z.string().min(1, 'Por favor, digite o nome de quem convidou o visitante!'),
-  como_conheceu_sara: z.string().min(1, 'Por favor, escreva como o visitante conheceu a Sara!'),
+  telefone: z.string().min(1, 'Por favor, digite o telefone do visitante!').max(11),  
+  endereco: z.string()
+  .min(1, 'Por favor, digite o endereço do visitante!')
+  .transform(capitalizarFrase),
+  bairro: z.string()
+  .min(1, 'Por favor, digite o bairro do visitante!')
+  .transform(capitalizarNome),
+  quem_convidou: z.string()
+  .min(1, 'Por favor, digite o nome de quem convidou o visitante!')
+  .transform(capitalizarNome),
+  como_conheceu: z.string()
+  .min(1, 'Por favor, escreva como o visitante conheceu nossa igreja!')
+  .transform(capitalizarFrase),
   data_visita: z.coerce.date({
     errorMap: (issue, { defaultError }) => ({
       message: issue.code ===
@@ -110,7 +127,7 @@ export const visitanteSchema = z.object({
   ], {
     errorMap: () => ({ message: 'Por favor, selecione uma opção!' })
   }),
-  createdAt: z.string()
+  created_at: z.string()
 })
 
-export const CreateVisitante = visitanteSchema.omit({ id:true, created_at:true })
+export const RegisterVisitante = visitanteSchema.omit({ id:true, created_at:true })
