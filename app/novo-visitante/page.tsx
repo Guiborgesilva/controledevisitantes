@@ -214,6 +214,7 @@ export default function Page() {
               p-2
               mt-3
               rounded-[10px]
+              font-bold
               hover:bg-white
               hover:text-black
               transition
