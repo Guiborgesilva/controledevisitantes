@@ -1,10 +1,10 @@
-// 'use server'
+'use server'
 
-// import { sql } from '@vercel/postgres'
+import { sql } from '@vercel/postgres'
 // import { revalidatePath } from 'next/cache'
 // import { redirect } from 'next/navigation'
-// import { unstable_noStore as noStore } from 'next/cache'
-// import { Visitante } from '@/app/lib/definitions'
+import { unstable_noStore as noStore } from 'next/cache'
+import { Visitante } from '@/app/lib/definitions'
 // import { z } from 'zod'
 // import { visitanteSchema } from "@/app/lib/utils"
 // // import { AuthError } from 'next-auth'
@@ -29,48 +29,6 @@
 // //   }
 // // }
 
-// const CreatePessoa = visitanteSchema.omit({ id:true, created_at:true })
-
-// export async function registerVisitante(formData: FormData){
-
-//   const {
-//     nome,
-//     data_nascimento,
-//     sexo,
-//     telefone,
-//     endereco,
-//     bairro,
-//     quem_convidou,
-//     como_conheceu,
-//     data_visita,
-//     tipo_culto
-//   } = CreatePessoa.parse({
-//     nome: formData.get('nome'),
-//     data_nascimento: formData.get('data_nascimento'),
-//     sexo: formData.get('sexo'),
-//     telefone: formData.get('telefone'),
-//     endereco: formData.get('endereco'),
-//     bairro: formData.get('bairro'),
-//     quem_convidou: formData.get('quem_convidou'),
-//     como_conheceu: formData.get('como_conheceu'),
-//     data_visita: formData.get('data_visita'),
-//     tipo_culto: formData.get('tipo_culto')
-//   })
-  
-//   const dataNascimento = data_nascimento.toString()
-//   const dataVisita = data_visita.toString()
-  
-//   try{    
-//     await sql
-//       `INSERT INTO visitante (nome, data_nascimento, sexo, telefone, endereco, bairro, quem_convidou, como_conheceu, data_visita, tipo_culto)
-//       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`, [nome, dataNascimento, sexo, telefone, endereco, bairro, quem_convidou, como_conheceu, dataVisita, tipo_culto]
-//       console.log('Visitante cadastrado com sucesso!')
-//       } catch (error) {
-//         return console.error(`Erro de Banco de Dados: ${error}`)
-//       }
-//       revalidatePath('/')
-//       redirect('/')
-// }
 
 // // export async function fetchPessoas(page: number) {
 // //   noStore()
@@ -90,109 +48,94 @@
 // //   }
 // // }
 
-// // export async function fetchPessoasById(id: string){
-// //   noStore()
-// //   try{
-// //     const data = await sql<Visitante>`
-// //       SELECT * FROM vidas WHERE id = ${id}
-// //     `
-// //     const pessoa = data.rows.map((pessoa) => ({
-// //       ...pessoa
-// //     }))
+export async function fetchVisitanteById(id: string){
+  noStore()
+  try{
+    const data = await sql<Visitante>`
+      SELECT * FROM visitantes WHERE id = ${id}
+    `
+    const visitante = data.rows.map((visitante) => ({
+      ...visitante
+    }))
 
-// //     return pessoa[0]
-// //   } catch (error) {
-// //     console.error(`Falha ao buscar os dados dessa Pessoa, erro: ${error}`)
-// //     throw new Error('Falha ao buscar os dados dessa Pessoa.')
-// //   }
-// // }
+    return visitante[0]
+  } catch (error) {
+    console.error(`Falha ao buscar os dados desse Visitante, erro: ${error}`)
+    throw new Error('Falha ao buscar os dados desse Visitante.')
+  }
+}
 
-// // const ITEMS_PER_PAGE = 6
-// // export async function fetchFilteredPessoas(
-// //   query: string,
-// //   currentPage: number
-// // ) {
-// //   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-// //   noStore();
+const ITEMS_PER_PAGE = 6
+export async function fetchFilteredVisitantes(
+  query: string,
+  currentPage: number
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+  noStore()
 
-// //   try {
-// //     const pessoas = await sql<Visitante>`
-// //       SELECT
-// //         id,
-// //         nome_pessoa,
-// //         data_nascimento,
-// //         sexo,
-// //         lider_equipe,
-// //         telefone,
-// //         email,
-// //         nome_mae,
-// //         nome_pai,
-// //         nome_contato1,
-// //         telefone_contato1,
-// //         nome_contato2,
-// //         telefone_contato2,
-// //         nome_contato3,
-// //         telefone_contato3,
-// //         forma_pagamento
-// //       FROM vidas
-// //       WHERE
-// //         vidas.nome_pessoa ILIKE ${`%${query}%`} OR
-// //         vidas.data_nascimento ILIKE ${`%${query}%`} OR
-// //         vidas.sexo ILIKE ${`%${query}%`} OR
-// //         vidas.lider_equipe ILIKE ${`%${query}%`} OR
-// //         vidas.telefone ILIKE ${`%${query}%`} OR
-// //         vidas.email ILIKE ${`%${query}%`} OR
-// //         vidas.nome_mae ILIKE ${`%${query}%`} OR
-// //         vidas.nome_pai ILIKE ${`%${query}%`} OR
-// //         vidas.nome_contato1 ILIKE ${`%${query}%`} OR
-// //         vidas.telefone_contato1 ILIKE ${`%${query}%`} OR
-// //         vidas.nome_contato2 ILIKE ${`%${query}%`} OR
-// //         vidas.telefone_contato2 ILIKE ${`%${query}%`} OR
-// //         vidas.nome_contato3 ILIKE ${`%${query}%`} OR
-// //         vidas.telefone_contato3 ILIKE ${`%${query}%`} OR
-// //         vidas.forma_pagamento ILIKE ${`%${query}%`}
-// //       ORDER BY nome_pessoa
-// //       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-// //     `;
+  try {
+    const visitantes = await sql<Visitante>`
+      SELECT
+        id,
+        nome,
+        data_nascimento,
+        sexo,
+        telefone,
+        endereco,
+        bairro,
+        quem_convidou,
+        como_conheceu,
+        data_visita,
+        tipo_culto
+      FROM visitantes
+      WHERE
+        visitantes.nome ILIKE ${`%${query}%`} OR
+        visitantes.data_nascimento::text ILIKE ${`%${query}%`} OR
+        visitantes.sexo ILIKE ${`%${query}%`} OR
+        visitantes.telefone::text ILIKE ${`%${query}%`} OR
+        visitantes.endereco ILIKE ${`%${query}%`} OR
+        visitantes.bairro ILIKE ${`%${query}%`} OR
+        visitantes.quem_convidou ILIKE ${`%${query}%`} OR
+        visitantes.como_conheceu ILIKE ${`%${query}%`} OR
+        visitantes.data_visita::text ILIKE ${`%${query}%`} OR
+        visitantes.tipo_culto ILIKE ${`%${query}%`}
+      ORDER BY created_at DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `
 
-// //     return pessoas.rows;
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Falha ao buscar os dados!');
-// //   }
-// // }
+    return visitantes.rows
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Falha ao buscar os dados!')
+  }
+}
 
-// // export async function fetchPessoasPages(query: string) {
-// //   noStore();
-// //   try {
-// //     const count = await sql`
-// //     SELECT COUNT(*)
-// //     FROM vidas AS pessoa
-// //     WHERE
-// //       pessoa.nome_pessoa ILIKE ${`%${query}%`} OR
-// //       pessoa.data_nascimento ILIKE ${`%${query}%`} OR
-// //       pessoa.sexo ILIKE ${`%${query}%`} OR
-// //       pessoa.lider_equipe ILIKE ${`%${query}%`} OR
-// //       pessoa.telefone ILIKE ${`%${query}%`} OR
-// //       pessoa.email ILIKE ${`%${query}%`} OR
-// //       pessoa.nome_mae ILIKE ${`%${query}%`} OR
-// //       pessoa.nome_pai ILIKE ${`%${query}%`} OR
-// //       pessoa.nome_contato1 ILIKE ${`%${query}%`} OR
-// //       pessoa.telefone_contato1 ILIKE ${`%${query}%`} OR
-// //       pessoa.nome_contato2 ILIKE ${`%${query}%`} OR
-// //       pessoa.telefone_contato2 ILIKE ${`%${query}%`} OR
-// //       pessoa.nome_contato3 ILIKE ${`%${query}%`} OR
-// //       pessoa.telefone_contato3 ILIKE ${`%${query}%`} OR
-// //       pessoa.forma_pagamento ILIKE ${`%${query}%`}
-// //   `;
+export async function fetchVisitantesPages(query: string) {
+  noStore()
+  try {
+    const count = await sql`
+    SELECT COUNT(*)
+    FROM visitantes
+    WHERE
+      visitantes.nome ILIKE ${`%${query}%`} OR
+      visitantes.data_nascimento::text ILIKE ${`%${query}%`} OR
+      visitantes.sexo ILIKE ${`%${query}%`} OR
+      visitantes.telefone::text ILIKE ${`%${query}%`} OR
+      visitantes.endereco ILIKE ${`%${query}%`} OR
+      visitantes.bairro ILIKE ${`%${query}%`} OR
+      visitantes.quem_convidou ILIKE ${`%${query}%`} OR
+      visitantes.como_conheceu ILIKE ${`%${query}%`} OR
+      visitantes.data_visita::text ILIKE ${`%${query}%`} OR
+      visitantes.tipo_culto ILIKE ${`%${query}%`}
+  `
 
-// //     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-// //     return totalPages;
-// //   } catch (error) {
-// //     console.error('Database Error:', error);
-// //     throw new Error('Falha ao buscar o número total de pessoas.');
-// //   }
-// // }
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE)
+    return totalPages
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Falha ao buscar o número total de visitantes.')
+  }
+}
 
 // // const UpdatePessoa = visitanteSchema.omit({ id: true, created_at: true })
 
