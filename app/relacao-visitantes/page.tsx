@@ -1,7 +1,4 @@
 export default async function Page() {
-  const fetchVisitante = await fetch('/api/visitante',{
-    method: 'GET'
-  })
   return (
     <section
       className="
