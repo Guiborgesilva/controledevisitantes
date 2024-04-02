@@ -101,7 +101,7 @@ export const visitanteSchema = z.object({
   telefone: z.string().min(1, 'Por favor, digite o telefone do visitante!').max(11),  
   endereco: z.string()
   .min(1, 'Por favor, digite o endereço do visitante!')
-  .transform(capitalizarFrase),
+  .transform(capitalizarNome),
   bairro: z.string()
   .min(1, 'Por favor, digite o bairro do visitante!')
   .transform(capitalizarNome),

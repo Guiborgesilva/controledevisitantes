@@ -22,7 +22,7 @@ export default function Page() {
 
   async function onSubmit(data: VisitanteForm) {
     try{
-      const response = await fetch('/api/visitante/register', {
+      const response = await fetch('/api/register-visitante', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
