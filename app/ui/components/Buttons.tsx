@@ -28,14 +28,31 @@ export function UpdateVisitante({ id, nome }: { id: string, nome: string }) {
         p-1
         cursor-pointer
         border
-        border-black
         rounded-md
-        hover:bg-black
+        text-sky-900
+        fill-sky-900
+        border-sky-900
+        hover:bg-sky-900
+        hover:fill-white
         hover:text-white
         transition-all
         w-full
+        flex
+        justify-center
+        items-center
+        gap-4
       "
-    >Editar {nome.split(' ')[0]}</Link>
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        className="w-5 h-5">
+          <path
+            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z"
+          />
+      </svg>
+      Editar {nome.split(' ')[0]}
+    </Link>
   )
 }
 
@@ -51,7 +68,7 @@ export default function ChamarWhatsapp({
   return (
     <Link
       href={`
-      https://api.whatsapp.com/send?phone=55${telefone}&text=Oi%20${nome.split(' ')[0]}%2C%20tudo%20bem?`}
+      https://api.whatsapp.com/send?phone=55${telefone}&text=Oi%20${nome.split(' ')[0]},%20tudo%20bem?`}
       className="
         p-1
         cursor-pointer
@@ -84,8 +101,8 @@ export default function ChamarWhatsapp({
   )
 }
 
-// export function DeletePessoa({ id }: { id: string }) {
-//   const deletePessoaWithId = deletePessoa.bind(null, id)
+// export function DeleteVisitante({ id }: { id: string }) {
+//   const deleteVisitanteWithId = deleteVisitante.bind(null, id)
 //   return (
 //     <form action={deletePessoaWithId}>
 //       <button

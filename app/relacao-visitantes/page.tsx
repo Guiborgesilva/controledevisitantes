@@ -26,7 +26,8 @@ export default async function Page({
         justify-center
         items-center
         w-full
-        h-screen
+        h-full
+        md:h-screen
       "
     >
       <div
@@ -35,15 +36,16 @@ export default async function Page({
           flex
           justify-center
           items-center
+          animate-up
         "
       >
         <h1
           className="
             text-4xl
             text-white
-            mb-8
+            my-8
           "
-        >Relação dos visitantes</h1>
+        >VISITANTES</h1>
       </div>
       <main
         className="
@@ -51,13 +53,15 @@ export default async function Page({
           mx-[2%]
           px-8
           py-10
+          mb-9
           w-[370px]
           md:w-[700px]
           flex
           flex-col
           gap-6
-          bg-zinc-500
-          rounded
+          bg-slate-800
+          rounded-lg
+          animate-up
         "
       >
         <div className="flex justify-between md:justify-normal md:gap-10 items-center mb-8">
