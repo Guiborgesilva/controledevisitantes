@@ -68,7 +68,7 @@ export default function ChamarWhatsapp({
   return (
     <Link
       href={`
-      https://api.whatsapp.com/send?phone=55${telefone}&text=Oi%20${nome.split(' ')[0]},%20tudo%20bem?`}
+      https://api.whatsapp.com/send?phone=55${telefone}&text=Oi%20${nome.split(' ')[0]},%20seja%20Bem-vindo%20à%20Sara%20de%20Içara!`}
       className="
         p-1
         cursor-pointer
