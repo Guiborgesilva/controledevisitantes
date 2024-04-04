@@ -5,7 +5,6 @@ import { sql } from '@vercel/postgres'
 // import { redirect } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
 import { Visitante } from '@/app/lib/definitions'
-// import { z } from 'zod'
 // import { visitanteSchema } from "@/app/lib/utils"
 // // import { AuthError } from 'next-auth'
 // // import { signIn } from "@/auth"
@@ -29,24 +28,6 @@ import { Visitante } from '@/app/lib/definitions'
 // //   }
 // // }
 
-
-// // export async function fetchPessoas(page: number) {
-// //   noStore()
-// //   try{
-// //     const offset = (page - 1) * ITEMS_PER_PAGE;
-// //     const limit = ITEMS_PER_PAGE;
-// //     const { rows } = await sql`
-// //       SELECT * FROM vidas
-// //       ORDER BY nome_pessoa
-// //       LIMIT ${limit} OFFSET ${offset}
-// //     `
-// //     // console.log(rows) Mostra o que foi cadastrado no console do servidor
-// //     return rows
-// //   } catch (error) {
-// //     console.error(`Erro de Banco de Dados: ${error}`)
-// //     return []
-// //   }
-// // }
 
 export async function fetchVisitanteById(id: string){
   noStore()

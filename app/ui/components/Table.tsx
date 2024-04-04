@@ -70,7 +70,9 @@ export default async function Table({
             </div>
           </div>
         )) : (
-          <p>Nenhum visitante cadastrado!</p>
+          <div className="w-full grid place-items-center col-span-2">
+            <p>Nenhum visitante cadastrado!</p>
+          </div>
         )
       }
     </>

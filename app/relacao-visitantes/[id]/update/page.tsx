@@ -1,10 +1,10 @@
 'use client'
 
+import Link from "next/link"
 import { fetchVisitanteById } from "@/app/lib/actions";
 import { RegisterVisitante } from "@/app/lib/utils"
 import { VisitanteForm } from "@/app/novo-visitante/page"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify"
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   async function onSubmit(data: VisitanteForm) {
     try{
-      const response = await fetch('/api/update-visitante', {
+      const response = await fetch(`/api/update-visitante/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -38,15 +38,17 @@ export default async function Page({ params }: { params: { id: string } }) {
       if(response.ok) {
         const responseData = await response.json()
         console.log('Dados atualizados com sucesso!', responseData)
-        toast.success('Visitante atualizado com sucesso!')
-        setTimeout(() => router.push('/'), 3000)
+        alert('Visitante atualizado com sucesso!')
+        router.push('/relacao-visitantes')
       } else {
-        toast.error('Falha ao atualizar Visitante!')
+        alert('Falha ao atualizar Visitante!')
         console.error('Falha ao atualizar os dados!')
+        router.push('/relacao-visitantes')
       }
     } catch(error) {
-      toast.warning('Erro ao atualizar Visitante!')
+      alert('Erro ao atualizar Visitante!')
       console.error(`Erro ao atualizar os dados!: ${error}`)
+      router.push('/relacao-visitantes')
     }
   }
   

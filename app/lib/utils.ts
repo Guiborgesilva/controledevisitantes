@@ -1,5 +1,21 @@
 import { z } from "zod"
 
+export function formatarData(dataAntiga: Date) { 
+  // Criar um objeto de data usando o valor do campo de entrada
+  const dataExtensa = new Date(dataAntiga);
+  
+  // // Extrair o ano, mês e dia do objeto de data
+  const ano = dataExtensa.getFullYear();
+  const mes = String(dataExtensa.getMonth() + 1).padStart(2, '0');
+  const dia = String(dataExtensa.getDate() + 1).padStart(2, '0');
+  
+  // // Formatar a data como "YYYY-MM-DD"
+  const dataFormatada = `${ano}-${mes}-${dia}`;
+  
+  // // Definir o valor formatado de volta no campo de entrada
+  return dataFormatada
+}
+
 export function capitalizarFrase(frase: string) {
   /* FUNÇÃO QUE DEIXA A PRIMEIRA PALAVRA DE CADA FRASE EM MAIÚSCULA' */
   return frase.replace(/^./, frase[0].toUpperCase());
@@ -94,7 +110,8 @@ export const visitanteSchema = z.object({
       'Por favor, selecione uma data válida!'
       : defaultError
     })
-  }),
+  })
+  .transform(formatarData),
   sexo: z.enum(['Feminino', 'Masculino'], {
     errorMap: () => ({ message: 'Por favor, selecione uma opção!' })
   }),
@@ -119,7 +136,8 @@ export const visitanteSchema = z.object({
       'Por favor, selecione uma data válida'
       : defaultError
     })
-  }),
+  })
+  .transform(formatarData),
   tipo_culto: z.enum([
     'Culto de Campanha | Quinta-feira',
     'Arena | Sábado',
