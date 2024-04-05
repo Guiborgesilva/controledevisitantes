@@ -4,10 +4,13 @@ export function formatarData(dataAntiga: Date) {
   // Criar um objeto de data usando o valor do campo de entrada
   const dataExtensa = new Date(dataAntiga);
   
-  // // Extrair o ano, mês e dia do objeto de data
-  const ano = dataExtensa.getFullYear();
-  const mes = String(dataExtensa.getMonth() + 1).padStart(2, '0');
-  const dia = String(dataExtensa.getDate() + 1).padStart(2, '0');
+  // Extrair o ano, mês e dia do objeto de data
+  // É necessário acrescentar UTC depois do GET para ter uma data precisa
+  // Senão a data retrocede um dia do valor original
+  // Escreve dia '05' e retorna '04'
+  const ano = dataExtensa.getUTCFullYear();
+  const mes = String(dataExtensa.getUTCMonth() + 1).padStart(2, '0');
+  const dia = String(dataExtensa.getUTCDate()).padStart(2, '0');
   
   // // Formatar a data como "YYYY-MM-DD"
   const dataFormatada = `${ano}-${mes}-${dia}`;
@@ -140,6 +143,7 @@ export const visitanteSchema = z.object({
   .transform(formatarData),
   tipo_culto: z.enum([
     'Culto de Campanha | Quinta-feira',
+    'Culto das Mulheres | Sexta-feira',
     'Arena | Sábado',
     'Culto da Família | Domingo'
   ], {

@@ -1,11 +1,12 @@
 'use client'
 
+import Link from "next/link"
+import 'react-toastify/dist/ReactToastify.css'
 import { z } from "zod"
 import { useForm } from 'react-hook-form'
 import { RegisterVisitante } from "@/app/lib/utils"
 import { ToastContainer, toast } from "react-toastify"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 export type VisitanteForm = z.infer<typeof RegisterVisitante>
@@ -197,6 +198,10 @@ export default function Page() {
             <option
               value="Culto de Campanha | Quinta-feira">
                 Culto de Campanha | Quinta-feira
+            </option>
+            <option
+              value="Culto das Mulheres | Sexta-feira">
+                Culto das Mulheres | Sexta-feira
             </option>
             <option
               value="Arena | Sábado">

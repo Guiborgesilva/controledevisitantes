@@ -1,8 +1,12 @@
 'use client'
 
 import { useState } from "react"
-import ChamarWhatsapp, { UpdateVisitante } from "./Buttons"
-// import ExportPessoa, { DeletePessoa, UpdatePessoa } from "../buttons"
+import 
+  ChamarWhatsapp,
+  {
+    DeleteVisitante,
+    UpdateVisitante
+  } from "@/app/ui/components/Buttons"
 
 export default function DotsDropdown({
   id,
@@ -165,7 +169,7 @@ export default function DotsDropdown({
                 >Tem certeza que deseja excluir <b>{nome.split(' ')[0]}</b>?</h2>
               </header>
               <main className="flex flex-row justify-center items-center gap-4 pb-1">
-                {/* <DeletePessoa id={id} /> */}
+                <DeleteVisitante id={id} />
                 <button
                   className="
                     p-1

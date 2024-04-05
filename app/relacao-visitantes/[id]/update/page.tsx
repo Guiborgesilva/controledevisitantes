@@ -216,6 +216,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                 Culto de Campanha | Quinta-feira
             </option>
             <option
+              value="Culto das Mulheres | Sexta-feira">
+                Culto das Mulheres | Sexta-feira
+            </option>
+            <option
               value="Arena | Sábado">
                 Arena | Sábado
             </option>

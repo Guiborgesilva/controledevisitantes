@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-// import { deletePessoa } from "../lib/actions"
+import { deleteVisitante } from "@/app/lib/actions"
 import Link from "next/link"
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -101,26 +101,27 @@ export default function ChamarWhatsapp({
   )
 }
 
-// export function DeleteVisitante({ id }: { id: string }) {
-//   const deleteVisitanteWithId = deleteVisitante.bind(null, id)
-//   return (
-//     <form action={deletePessoaWithId}>
-//       <button
-//         className="
-//           p-1
-//           cursor-pointer
-//           border
-//           border-red-600
-//           text-red-600
-//           rounded-md
-//         hover:bg-red-600
-//         hover:text-white
-//           transition-all
-//           w-24
-//         "
-//       >
-//         Excluir
-//       </button>
-//     </form>
-//   )
-// }
+export function DeleteVisitante({ id }: { id: string }) {
+  const deleteVisitanteWithId = deleteVisitante.bind(null, id)
+
+  return (
+    <form action={deleteVisitanteWithId}>
+      <button
+        className="
+          p-1
+          cursor-pointer
+          border
+          border-red-600
+          text-red-600
+          rounded-md
+        hover:bg-red-600
+        hover:text-white
+          transition-all
+          w-24
+        "
+      >
+        Excluir
+      </button>
+    </form>
+  )
+}

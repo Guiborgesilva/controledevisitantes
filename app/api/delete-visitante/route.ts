@@ -1,8 +1,8 @@
 import { sql } from "@vercel/postgres"
 import { NextRequest } from "next/server"
 
-export async function DELETE(req: NextRequest) {
-  const { id } = await req.json()
+export async function DELETE(req: NextRequest, { params }: { params : { id: string }}) {
+  const id = params.id
   try {
     const visitante = await sql.query(`
       DELETE FROM visitantes WHERE id = $1

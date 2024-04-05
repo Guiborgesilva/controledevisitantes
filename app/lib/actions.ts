@@ -3,7 +3,7 @@
 import { sql } from '@vercel/postgres'
 // import { revalidatePath } from 'next/cache'
 // import { redirect } from 'next/navigation'
-import { unstable_noStore as noStore } from 'next/cache'
+import { unstable_noStore as noStore, revalidatePath } from 'next/cache'
 import { Visitante } from '@/app/lib/definitions'
 // import { visitanteSchema } from "@/app/lib/utils"
 // // import { AuthError } from 'next-auth'
@@ -188,14 +188,14 @@ export async function fetchVisitantesPages(query: string) {
 // //   redirect('/controle');
 // // }
 
-// // export async function deletePessoa(id: string){
-// //   try{
-// //     await sql `DELETE FROM vidas WHERE id = ${id}`
-// //     revalidatePath('/controle')
-// //     return { message: 'Pessoa deletada!' }
-// //   } catch (error) {
-// //     return{
-// //       message: 'Erro de Banco de Dados: Falha ao Deletar essa Pessoa!'
-// //     }
-// //   }
-// // }
+export async function deleteVisitante(id: string){
+  try{
+    await sql `DELETE FROM visitantes WHERE id = ${id}`
+    revalidatePath('/relacao-visitantes')
+    return { message: 'Visitante excluído!' }
+  } catch (error) {
+    return{
+      message: 'Erro de Banco de Dados: Falha ao Excluír esse Visitante!'
+    }
+  }
+}

@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import "@/app/ui/globals.css"
 import '@/app/ui/animations.css'
-import 'react-toastify/dist/ReactToastify.css'
 
 const montserrat = Montserrat({ subsets: ["latin"] })
 
