@@ -5,14 +5,16 @@ import 'react-toastify/dist/ReactToastify.css'
 import { z } from "zod"
 import { useForm } from 'react-hook-form'
 import { RegisterVisitante } from "@/app/lib/utils"
-import { ToastContainer, toast } from "react-toastify"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
+import { ModalError, ModalSuccess } from "@/app/ui/components/ModalMessage"
+import { useState } from "react"
 
 export type VisitanteForm = z.infer<typeof RegisterVisitante>
 
 export default function Page() {
-  const router = useRouter()
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -34,14 +36,13 @@ export default function Page() {
       if(response.ok) {
         const responseData = await response.json()
         console.log('Dados enviados com sucesso!', responseData)
-        toast.success('Visitante cadastrado com sucesso!')
-        setTimeout(() => router.push('/'), 3000)
+        setShowSuccessModal(true)
       } else {
-        toast.error('Falha ao cadastrar Visitante!')
+        setShowErrorModal(true)
         console.error('Falha ao enviar os dados!')
       }
     } catch(error) {
-      toast.warning('Erro ao cadastrar Visitante!')
+      setShowErrorModal(true)
       console.error(`Erro ao enviar os dados!: ${error}`)
     }
   }
@@ -73,6 +74,8 @@ export default function Page() {
         animate-up
       "
       >
+        {showSuccessModal && <ModalSuccess/>}
+        {showErrorModal && <ModalError/>}
         <div className="flex justify-between w-[80%]">
           <div className="flex justify-center items-center">
             <Link href={{ pathname:'/' }}>
@@ -108,6 +111,7 @@ export default function Page() {
         >
           <label htmlFor="nome">Nome completo</label>
           <input
+            id="nome"
             className="
               text-black
               p-2
@@ -122,6 +126,7 @@ export default function Page() {
           {<span>{errors.nome?.message}</span>}
           <label htmlFor="data_nascimento">Data de nascimento</label>
           <input
+            id="data_nascimento"
             type="date"
             className="text-black p-2 rounded-lg cursor-pointer"
             maxLength={20}
@@ -130,6 +135,7 @@ export default function Page() {
           {<span>{errors.data_nascimento?.message}</span>}
           <label htmlFor="sexo">Sexo</label>
           <select
+            id="sexo"
             defaultValue="Selecione uma opção"
             {...register('sexo')}
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 p-2 outline-2 text-black"
@@ -141,6 +147,7 @@ export default function Page() {
           {<span>{errors.sexo?.message}</span>}
           <label htmlFor="telefone">Telefone</label>
           <input
+            id="telefone"
             type="tel"
             {...register('telefone')}
             maxLength={11}
@@ -150,6 +157,7 @@ export default function Page() {
           {<span>{errors.telefone?.message}</span>}
           <label htmlFor="endereco">Enrereço</label>
           <input
+            id="endereco"
             className="text-black p-2 rounded-lg"
             {...register('endereco')}
             placeholder="Rua da Glória, 1234"
@@ -158,6 +166,7 @@ export default function Page() {
           {<span>{errors.endereco?.message}</span>}
           <label htmlFor="bairro">Bairro</label>
           <input
+            id="bairro"
             className="text-black p-2 rounded-lg"
             {...register('bairro')}
             placeholder="Digite o bairro do visitante"
@@ -166,6 +175,7 @@ export default function Page() {
           {<span>{errors.bairro?.message}</span>}
           <label htmlFor="quem_convidou">Quem convidou o visitante</label>
           <input
+            id="quem_convidou"
             className="text-black p-2 rounded-lg"
             {...register('quem_convidou')}
             placeholder="Quem convidou o visitante"
@@ -174,6 +184,7 @@ export default function Page() {
           {<span>{errors.quem_convidou?.message}</span>}
           <label htmlFor="como_conheceu">Como conheceu a Sara Nossa Terra</label>
           <textarea
+            id="como_conheceu"
             className="text-black px-2 pt-2 pb-10 rounded-lg"
             {...register('como_conheceu')}
             placeholder="Escreva como o visitante conheceu a Sara Nossa Terra"
@@ -182,6 +193,7 @@ export default function Page() {
           {<span>{errors.como_conheceu?.message}</span>}
           <label htmlFor="data_visita">Data da visita</label>
           <input
+            id="data_visita"
             type="date"
             className="text-black p-2 rounded-lg cursor-pointer"
             maxLength={20}
@@ -190,6 +202,7 @@ export default function Page() {
           {<span>{errors.data_visita?.message}</span>}
           <label htmlFor="tipo_culto">Tipo de Culto</label>
           <select
+            id="tipo_culto"
             defaultValue="Selecione uma opção"
             {...register('tipo_culto')}
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 p-2 outline-2 text-black"
@@ -229,7 +242,6 @@ export default function Page() {
           >
             CADASTRAR
           </button>
-          <ToastContainer />
         </form>
       </main>
     </section>

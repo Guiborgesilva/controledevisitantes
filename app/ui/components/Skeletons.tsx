@@ -80,3 +80,38 @@ export function CardsSkeleton() {
     </>
   )
 }
+
+export function InputSkeleton() {
+  return (
+    <div
+      className="
+        flex
+        flex-col
+        gap-2
+      "
+    >
+      <label
+        className="
+          nameLine
+          w-[130px]
+          py-2
+          rounded
+          transition-all
+        "
+        htmlFor="nome"></label>
+        <input
+          className="
+            text-black
+            p-2
+            mb-4
+            rounded-lg
+            w-full
+            nameLine
+            transition-all
+          "
+          disabled
+          type="text"
+        />
+    </div>
+  )
+}

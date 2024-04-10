@@ -152,4 +152,4 @@ export const visitanteSchema = z.object({
   created_at: z.string()
 })
 
-export const RegisterVisitante = visitanteSchema.omit({ id:true, created_at:true })
+export const RegisterVisitante = visitanteSchema.omit({ id: true, created_at: true })
