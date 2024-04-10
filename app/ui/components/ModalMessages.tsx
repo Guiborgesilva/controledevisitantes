@@ -1,5 +1,8 @@
-import AnimationSuccess from "@/app/ui/components/AnimationSuccess"
-import AnimationError from "@/app/ui/components/AnimationError"
+import {
+  AnimationError,
+  AnimationSuccess
+} from "@/app/ui/components/AnimationMessages"
+
 
 export function ModalSuccess(){
   return (

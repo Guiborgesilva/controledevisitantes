@@ -3,7 +3,7 @@
 import { fetchVisitanteById } from '@/app/lib/actions'
 import { useEffect, useState } from "react"
 import { InputSkeleton } from "@/app/ui/components/Skeletons"
-import { ModalError, ModalEditSuccess } from "@/app/ui/components/ModalMessage"
+import { ModalError, ModalEditSuccess } from "@/app/ui/components/ModalMessages"
 import { VisitanteForm } from "@/app/novo-visitante/page"
 import EditForm from '@/app/ui/components/EditForm'
 import Link from "next/link"

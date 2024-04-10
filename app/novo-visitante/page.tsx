@@ -6,7 +6,7 @@ import { z } from "zod"
 import { useForm } from 'react-hook-form'
 import { RegisterVisitante } from "@/app/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ModalError, ModalSuccess } from "@/app/ui/components/ModalMessage"
+import { ModalError, ModalSuccess } from "@/app/ui/components/ModalMessages"
 import { useState } from "react"
 
 export type VisitanteForm = z.infer<typeof RegisterVisitante>
