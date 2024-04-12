@@ -3,6 +3,7 @@
 import { useState } from "react"
 import 
   {
+    Button,
     ChamarWhatsapp,
     DeleteVisitante,
     UpdateVisitante
@@ -171,19 +172,21 @@ export default function DotsDropdown({
               <main className="flex flex-row justify-center items-center gap-4 pb-1">
                 <DeleteVisitante id={id} />
                 <button
-                  className="
-                    p-1
-                    cursor-pointer
-                    border
-                    border-black
-                    rounded-md
-                  hover:bg-black
-                  hover:text-white
-                    transition-all
-                    w-24
-                  "
                   onClick={() => setModalOpen((prev) => !prev)}
-                >Cancelar</button>
+                >
+                  <Button
+                    className="
+                      p-1
+                      cursor-pointer
+                      rounded
+                      bg-black
+                      text-white
+                      hover:bg-black/90
+                      transition-all
+                      w-24
+                    "
+                  >Cancelar</Button>
+                </button>
               </main>
             </div>
           </div>

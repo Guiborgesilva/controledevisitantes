@@ -138,22 +138,20 @@ export function DeleteVisitante({ id }: { id: string }) {
 
   return (
     <form action={deleteVisitanteWithId}>
-      <button
+      <Button
         className="
           p-1
           cursor-pointer
-          border
-          border-red-600
-          text-red-600
-          rounded-md
-        hover:bg-red-600
-        hover:text-white
+          bg-red-600
+          text-white
+          rounded
+        hover:bg-red-800
           transition-all
           w-24
         "
       >
         Excluir
-      </button>
+      </Button>
     </form>
   )
 }
