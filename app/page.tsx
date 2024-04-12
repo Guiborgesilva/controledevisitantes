@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from "next/link"
+import { Button } from "@/app/ui/components/Buttons"
 
 export default function Home() {
   return (
@@ -44,41 +45,39 @@ export default function Home() {
         "
       >
         <Link
-          className="
-            w-full
-            h-12
-            rounded-lg
-            text-white
-            border
-            border-white
-            hover:bg-white
-            hover:text-black
-            transition-all
-            flex
-            items-center
-            justify-center
-            animate-up
-          "
           href={'/novo-visitante'}
-        >NOVO VISITANTE</Link>
+        >
+          <Button
+            className="
+              w-[336px]
+              h-12
+              rounded
+              text-black
+              font-bold
+              bg-white
+              hover:bg-white/85
+              transition-all
+              animate-up
+            "
+          >NOVO VISITANTE</Button>
+        </Link>
         <Link
-          className="
-            w-full
-            h-12
-            rounded-lg
-            text-white
-            border
-            border-white
-            hover:bg-white
-            hover:text-black
-            transition-all
-            flex
-            items-center
-            justify-center
-            animate-up
-          "
           href={'/relacao-visitantes'}
-        >RELAÇÃO DOS VISITANTES</Link>
+        >
+          <Button
+            className="
+              w-[336px]
+              h-12
+              rounded
+              text-black
+              font-bold
+              bg-white
+              hover:bg-white/85
+              transition-all
+              animate-up
+            "
+          >RELAÇÃO DOS VISITANTES</Button>
+        </Link>
       </main>
     </section>
   )

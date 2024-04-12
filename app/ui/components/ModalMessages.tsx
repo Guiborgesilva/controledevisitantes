@@ -2,6 +2,7 @@ import {
   AnimationError,
   AnimationSuccess
 } from "@/app/ui/components/AnimationMessages"
+import { Button } from "@/app/ui/components/Buttons"
 
 
 export function ModalSuccess(){
@@ -20,6 +21,7 @@ export function ModalSuccess(){
           bg-opacity-50
           grid
           place-items-center
+          z-20
         "
       >
         <section
@@ -34,6 +36,7 @@ export function ModalSuccess(){
             items-center
             gap-4
             animate-up
+            z-90
           "
           onClick={(e) => e.stopPropagation()} // Impedir o fechamento do modal quando clicar dentro dele
         >
@@ -54,38 +57,34 @@ export function ModalSuccess(){
           >
             <a
               href={'/'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Voltar para a Home</a>
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Ir para a Home</Button>
+            </a>
             <a
               href={'/novo-visitante'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Cadastrar um novo Visitante</a>
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Cadastrar novo visitante</Button>
+            </a>
           </section>
         </section>
       </main>
@@ -109,6 +108,7 @@ export function ModalEditSuccess(){
           bg-opacity-50
           grid
           place-items-center
+          z-20
         "
       >
         <section
@@ -123,6 +123,7 @@ export function ModalEditSuccess(){
             items-center
             gap-4
             animate-up
+            z-90
           "
           onClick={(e) => e.stopPropagation()} // Impedir o fechamento do modal quando clicar dentro dele
         >
@@ -143,38 +144,34 @@ export function ModalEditSuccess(){
           >
             <a
               href={'/'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Ir para a Home</a>
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Ir para a Home</Button>
+            </a>
             <a
               href={'/relacao-visitantes'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Ir para Relação dos visitantes</a>
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Ir para Relação dos visitantes</Button>
+            </a>
           </section>
         </section>
       </main>
@@ -198,6 +195,7 @@ export function ModalError(){
           bg-opacity-50
           grid
           place-items-center
+          z-20
         "
       >
         <section
@@ -212,6 +210,7 @@ export function ModalError(){
             items-center
             gap-8
             animate-up
+            z-90
           "
           onClick={(e) => e.stopPropagation()}
         >
@@ -231,39 +230,35 @@ export function ModalError(){
             "
           >
             <a
-              href={'/'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Voltar para a Home</a>
+              onClick={() => window.location.reload()}
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Tentar novamente</Button>
+            </a>
             <a
-              href={'/novo-visitante'}
-              className="
-                text-black
-                border
-                border-black
-                hover:bg-black
-                hover:text-white
-                transition-all
-                w-[252px]
-                py-1
-                rounded
-                flex
-                items-center
-                justify-center
-              "
-            >Tentar novamente</a>
+              href={'/'}
+            >
+              <Button
+                className="
+                  text-white
+                  bg-black
+                  hover:bg-black/90
+                  transition-all
+                  w-[252px]
+                  py-1
+                  rounded
+                "
+              >Ir para a Home</Button>
+            </a>
           </section>
         </section>
       </main>

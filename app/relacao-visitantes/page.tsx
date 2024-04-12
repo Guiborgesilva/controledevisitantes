@@ -9,14 +9,14 @@ import { CardsSkeleton } from "@/app/ui/components/Skeletons"
 export default async function Page({
   searchParams,
 } : {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  }
-}) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchVisitantesPages(query);
+    searchParams?: {
+      query?: string;
+      page?: string;
+    }
+  }) {
+  const query = searchParams?.query || ''
+  const currentPage = Number(searchParams?.page) || 1
+  const totalPages = await fetchVisitantesPages(query)
 
   return (
     <section

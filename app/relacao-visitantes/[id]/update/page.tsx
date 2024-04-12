@@ -130,7 +130,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </Link>
           </div>
           <div className="flex justify-center items-center">
-            <h2 className="w-full text-center text-[1.3rem] md:text-3xl">NOVO VISITANTE</h2>
+            <h2 className="w-full text-center text-[1.3rem] md:text-3xl">EDITAR VISITANTE</h2>
           </div>
           <div></div>
         </div>

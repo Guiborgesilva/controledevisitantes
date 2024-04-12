@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import 
-  ChamarWhatsapp,
   {
+    ChamarWhatsapp,
     DeleteVisitante,
     UpdateVisitante
   } from "@/app/ui/components/Buttons"

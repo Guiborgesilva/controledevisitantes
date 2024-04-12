@@ -1,19 +1,47 @@
-import clsx from 'clsx'
+'use client'
+
 import { deleteVisitante } from "@/app/lib/actions"
 import Link from "next/link"
+import { useRef } from "react"
+import '@/app/ui/buttons.css'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode
+  id?: string
+  nome?: string
+  telefone?: string
 }
 
-export function Button({ children, className, ...rest }: ButtonProps) {
+export const Button: React.FC<ButtonProps> = ({ children, className, ...rest }: ButtonProps) => {
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  const createRipple = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const button = buttonRef.current
+    if (!button) return // Verifica se buttonRef.current é null
+
+    const circle = document.createElement("span")
+    const diameter = Math.max(button.clientWidth, button.clientHeight)
+    const radius = diameter / 2
+
+    circle.style.width = circle.style.height = `${diameter}px`
+    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`
+    circle.style.top = `${event.clientY - button.offsetTop - radius}px`
+    circle.classList.add("ripple")
+
+    button.appendChild(circle)
+
+    setTimeout(() => {
+      circle.remove()
+    }, 600)
+  }
+
   return (
     <button
       {...rest}
-      className={clsx(
-        'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
-        className,
-      )}
+      ref={buttonRef}
+      className={`ripple-button ${className}`}
+      onClick={(e) => createRipple(e)}
+      type="submit"
     >
       {children}
     </button>
@@ -51,12 +79,15 @@ export function UpdateVisitante({ id, nome }: { id: string, nome: string }) {
             d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z"
           />
       </svg>
-      Editar {nome.split(' ')[0]}
+      <Button
+
+      >Editar {nome.split(' ')[0]}
+      </Button>
     </Link>
   )
 }
 
-export default function ChamarWhatsapp({
+export function ChamarWhatsapp({
   id,
   nome,
   telefone

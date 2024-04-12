@@ -98,19 +98,18 @@ export function InputSkeleton() {
           rounded
           transition-all
         "
-        htmlFor="nome"></label>
+      ></label>
         <input
           className="
             text-black
             p-2
             mb-4
-            rounded-lg
+            rounded-sm
             w-full
             nameLine
             transition-all
           "
           disabled
-          type="text"
         />
     </div>
   )

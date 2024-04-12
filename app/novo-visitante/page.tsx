@@ -1,13 +1,13 @@
 'use client'
 
 import Link from "next/link"
-import 'react-toastify/dist/ReactToastify.css'
 import { z } from "zod"
 import { useForm } from 'react-hook-form'
 import { RegisterVisitante } from "@/app/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ModalError, ModalSuccess } from "@/app/ui/components/ModalMessages"
 import { useState } from "react"
+import { Button } from "@/app/ui/components/Buttons"
 
 export type VisitanteForm = z.infer<typeof RegisterVisitante>
 
@@ -57,25 +57,25 @@ export default function Page() {
       "
     >
       <main
-      className="
-        w-[400px]
-        md:w-[450px]
-        bg-slate-800
-        rounded-lg
-        my-10
-        py-8
-        mx-[2%]
-        text-white
-        flex
-        flex-col
-        justify-center
-        items-center
-        gap-8
-        animate-up
-      "
+        className="
+          w-[400px]
+          md:w-[450px]
+          bg-slate-800
+          rounded-lg
+          my-10
+          py-8
+          mx-[2%]
+          text-white
+          flex
+          flex-col
+          justify-center
+          items-center
+          gap-8
+          animate-up
+        "
       >
-        {showSuccessModal && <ModalSuccess/>}
-        {showErrorModal && <ModalError/>}
+        {showSuccessModal && <ModalSuccess />}
+        {showErrorModal && <ModalError />}
         <div className="flex justify-between w-[80%]">
           <div className="flex justify-center items-center">
             <Link href={{ pathname:'/' }}>
@@ -115,7 +115,7 @@ export default function Page() {
             className="
               text-black
               p-2
-              rounded-lg
+              rounded
               w-full
             "
             autoFocus
@@ -128,7 +128,7 @@ export default function Page() {
           <input
             id="data_nascimento"
             type="date"
-            className="text-black p-2 rounded-lg cursor-pointer"
+            className="text-black p-2 rounded cursor-pointer"
             maxLength={20}
             {...register('data_nascimento')}
           />
@@ -151,14 +151,14 @@ export default function Page() {
             type="tel"
             {...register('telefone')}
             maxLength={11}
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded"
             placeholder="48999999999"
           />
           {<span>{errors.telefone?.message}</span>}
           <label htmlFor="endereco">Enrereço</label>
           <input
             id="endereco"
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded"
             {...register('endereco')}
             placeholder="Rua da Glória, 1234"
             type="text"
@@ -167,7 +167,7 @@ export default function Page() {
           <label htmlFor="bairro">Bairro</label>
           <input
             id="bairro"
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded"
             {...register('bairro')}
             placeholder="Digite o bairro do visitante"
             type="text"
@@ -176,7 +176,7 @@ export default function Page() {
           <label htmlFor="quem_convidou">Quem convidou o visitante</label>
           <input
             id="quem_convidou"
-            className="text-black p-2 rounded-lg"
+            className="text-black p-2 rounded"
             {...register('quem_convidou')}
             placeholder="Quem convidou o visitante"
             type="text"
@@ -185,7 +185,7 @@ export default function Page() {
           <label htmlFor="como_conheceu">Como conheceu a Sara Nossa Terra</label>
           <textarea
             id="como_conheceu"
-            className="text-black px-2 pt-2 pb-10 rounded-lg"
+            className="text-black px-2 pt-2 pb-10 rounded"
             {...register('como_conheceu')}
             placeholder="Escreva como o visitante conheceu a Sara Nossa Terra"
             maxLength={255}
@@ -195,7 +195,7 @@ export default function Page() {
           <input
             id="data_visita"
             type="date"
-            className="text-black p-2 rounded-lg cursor-pointer"
+            className="text-black p-2 rounded cursor-pointer"
             maxLength={20}
             {...register('data_visita')}
           />
@@ -205,7 +205,7 @@ export default function Page() {
             id="tipo_culto"
             defaultValue="Selecione uma opção"
             {...register('tipo_culto')}
-            className="peer block w-full cursor-pointer rounded-md border border-gray-200 p-2 outline-2 text-black"
+            className="peer block w-full cursor-pointer rounded border border-gray-200 p-2 outline-2 text-black"
           >
             <option defaultValue="Selecione uma opção" disabled>Selecione uma opção</option>
             <option
@@ -226,22 +226,21 @@ export default function Page() {
             </option>
           </select>
           {<span>{errors.tipo_culto?.message}</span>}
-          <button
+          <Button
             type="submit"
             className="
               p-2
               mt-3
-              rounded-[10px]
+              rounded
               font-bold
-              hover:bg-white
-              hover:text-black
-              transition
-              border
-              border-white
+              text-black
+              bg-white
+              hover:bg-white/85
+              transition-all
             "
           >
             CADASTRAR
-          </button>
+          </Button>
         </form>
       </main>
     </section>
